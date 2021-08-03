@@ -1,0 +1,71 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 529
+  ClientWidth = 648
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  DesignerMasterStyle = 0
+  object StringGrid1: TStringGrid
+    Align = Top
+    CanFocus = True
+    ClipChildren = True
+    Position.Y = 22.000000000000000000
+    Size.Width = 648.000000000000000000
+    Size.Height = 369.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000004000000}
+    TextSettings.FontColor = claBlue
+    StyledSettings = [Family]
+    TabOrder = 0
+    RowHeight = 40.000000000000000000
+    RowCount = 20
+    OnDrawColumnCell = StringGrid1DrawColumnCell
+    Viewport.Width = 644.000000000000000000
+    Viewport.Height = 344.000000000000000000
+  end
+  object Button1: TButton
+    Align = Top
+    Position.Y = 391.000000000000000000
+    Size.Width = 648.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    Text = 'Button1'
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Align = Top
+    Position.Y = 424.000000000000000000
+    Size.Width = 648.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    Text = 'Button2'
+    OnClick = Button2Click
+  end
+  object Edit1: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Top
+    TabOrder = 4
+    Text = '20'
+    Size.Width = 648.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object Button3: TButton
+    Align = Top
+    Position.Y = 457.000000000000000000
+    Size.Width = 648.000000000000000000
+    Size.Height = 40.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 5
+    Text = 'Button3'
+    OnClick = Button3Click
+  end
+end

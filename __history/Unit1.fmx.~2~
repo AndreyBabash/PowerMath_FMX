@@ -1,0 +1,60 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 529
+  ClientWidth = 648
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Client
+    ClipParent = True
+    Size.Width = 648.000000000000000000
+    Size.Height = 401.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 4
+  end
+  object Button1: TButton
+    Align = Top
+    Position.Y = 22.000000000000000000
+    Size.Width = 648.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Text = 'Button1'
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Align = Top
+    Position.Y = 55.000000000000000000
+    Size.Width = 648.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Text = 'Button2'
+    OnClick = Button2Click
+  end
+  object Edit1: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Top
+    TabOrder = 2
+    Text = '20'
+    Size.Width = 648.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object Button3: TButton
+    Align = Top
+    Position.Y = 88.000000000000000000
+    Size.Width = 648.000000000000000000
+    Size.Height = 40.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    Text = 'Button3'
+    OnClick = Button3Click
+  end
+end

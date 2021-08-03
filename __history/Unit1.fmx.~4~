@@ -1,0 +1,62 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 436
+  ClientWidth = 648
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Layout1: TLayout
+    Align = Top
+    ClipParent = True
+    Position.Y = 88.000000000000000000
+    Size.Width = 648.000000000000000000
+    Size.Height = 225.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+  end
+  object Button1: TButton
+    Align = Top
+    Position.Y = 22.000000000000000000
+    Size.Width = 648.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Text = #1056#1072#1089#1095#1077#1090
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Align = Top
+    Position.Y = 55.000000000000000000
+    Size.Width = 648.000000000000000000
+    Size.Height = 33.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Text = #1053#1086#1074#1072#1103' '#1084#1072#1090#1088#1080#1094#1072
+    OnClick = Button2Click
+  end
+  object Edit1: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Top
+    TabOrder = 2
+    Text = '20'
+    Size.Width = 648.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object Memo1: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Align = Client
+    Size.Width = 648.000000000000000000
+    Size.Height = 123.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 5
+    Viewport.Width = 644.000000000000000000
+    Viewport.Height = 119.000000000000000000
+  end
+end

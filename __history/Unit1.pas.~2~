@@ -1,0 +1,148 @@
+unit Unit1;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, System.Rtti,
+  FMX.Grid.Style, FMX.Grid, FMX.Controls.Presentation, FMX.ScrollBox,
+  FMX.StdCtrls, FMX.Edit, FMX.Layouts;
+
+type
+  TForm1 = class(TForm)
+    Button1: TButton;
+    Button2: TButton;
+    Edit1: TEdit;
+    Button3: TButton;
+    Layout1: TLayout;
+    procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure StringGridConstructor(sg:TStringGrid;rowcol:integer);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    arr:TArray<Double>;
+    elementscol:integer;
+    stringcolumn:TArray<TStringColumn>;
+    MyStringGrid:TStringGrid;
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.fmx}
+
+
+procedure TForm1.StringGridConstructor(sg: TStringGrid; rowcol: Integer);
+begin
+  with sg do
+  begin
+    TStringGrid.Create(Layout1);
+    Parent := Layout1;
+    TextSettings.Font.Size := 14;
+    TextSettings.Font.Style := [TFontStyle.fsBold];
+    BringToFront;
+    Align := TAlignLayout.Client;
+    Visible := true;
+    RowCount := rowcol;
+  end;
+end;
+
+
+
+procedure TForm1.Button1Click(Sender: TObject);
+var i,j:integer;  sum:double;  temp:double;
+begin
+  arr:=nil;
+
+  sum:=0;
+  SetLength(arr,elementscol);
+
+  for i:=0 to elementscol-1 do
+  arr[i]:=Double.Parse(MyStringGrid.Cells[0,i]);
+
+  for i:=0 to Length(arr)-1 do
+  sum:=sum+arr[i];
+
+  // Сортировка пузырьком
+  for i:=1 to Length(arr) do
+  begin
+    for j:=Length(arr)-1 downto i do
+    begin
+      if arr[j-1]>arr[j]
+       then
+      begin
+        temp:=arr[j-1];
+        arr[j-1]:=arr[j];
+        arr[j]:=temp;
+      end;
+    end;
+  end;
+
+  for i:=0 to elementscol-1 do
+  begin
+    MyStringGrid.Cells[1,i]:=arr[i].ToString;
+  end;
+
+  Form1.Caption:=sum.ToString;
+
+  ShowMessage('Результат: '+sum.ToString);
+
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+var i:integer;
+begin
+    stringcolumn:=nil;
+    elementscol:=integer.Parse(Edit1.Text);
+
+    SetLength(stringcolumn,elementscol+1);
+
+
+
+  for i:=0 to Length(stringcolumn)-1 do
+  begin
+     stringcolumn[i]:=TStringColumn.Create(MyStringGrid);
+     stringcolumn[i].Parent:=MyStringGrid;
+     stringcolumn[i].Visible:=true;
+     stringcolumn[i].Name:='StringColumn'+i.ToString;
+     stringcolumn[i].Header:='a['+(i+1).ToString+']';
+     if i=Length(stringcolumn)-1 then stringcolumn[i].Header:='d';
+
+  end;
+
+end;
+
+procedure TForm1.Button3Click(Sender: TObject);
+begin
+try
+  MyStringGrid.Destroy;
+  MyStringGrid.Free;
+except on EAccessViolation do
+  begin
+
+  end;
+end;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  elementscol:=integer.Parse(Edit1.Text);
+  // Создаем StringGrid
+
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+  stringcolumn:=nil;
+end;
+
+
+
+end.
