@@ -6,9 +6,9 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, System.Rtti,
   FMX.Grid.Style, FMX.Grid, FMX.ScrollBox,
-  FMX.StdCtrls, FMX.Edit, FMX.Layouts, FMX.Memo, System.Permissions,
+  FMX.StdCtrls, FMX.Edit, FMX.Layouts, FMX.Memo,
   {$IFDEF ANDROID}
-  Androidapi.Helpers, FMX.Platform.Android, Androidapi.JNI.Os,
+  Androidapi.Helpers, FMX.Platform.Android,
   {$ENDIF}
   FMX.Controls.Presentation;
 
@@ -33,10 +33,6 @@ type
     procedure FormShow(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
-      Shift: TShiftState);
-    procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
-      Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -47,10 +43,8 @@ type
     n1,n, i,j,matrix_size:integer;
     A: TMatrix;
     A_save:TMatrix;
-    D_save:TVector;
     D, X: TVector;
     filename:string;
-    FPermissionWriteExternalStorage: string;
     public function Gauss(n:integer; A:TMatrix; D:TVector):TVector;
   end;
 
@@ -379,19 +373,9 @@ end;
 
 procedure TForm1.Button3Click(Sender: TObject);
 var f:TFileStream; // переменная для работы с текстовым файлом
-i:integer;
 begin
-
-      n1:=matrix_size;
-    //   Инициализация масссивов
-      Setlength(A_save,n1);
-    for i:=0 to n1-1 do
-    begin
-      Setlength(A_save[i],n1);
-    end;
-      Setlength(D_save,n1);
-
-    InputQuery('Загрузка матрицы из файла', ['Введите имя файла'], ['mysavematrix.txt'],
+    n1:=matrix_size;
+  InputQuery('Загрузка матрицы из файла', ['Введите имя файла'], ['mysavematrix.txt'],
 
     procedure(const AResult: TModalResult; const AValues: array of string)
     var i,j:integer;  value:string;
@@ -413,20 +397,22 @@ begin
             begin
               for j:=0 to n1-1 do
               begin
-                f.Read(A_save[i,j],sizeof(A_save[i,j]));
-                MyStringGrid.Cells[j,i]:=A_Save[i,j].ToString;
+                f.Read(a[i,j],sizeof(a[i,j]));
+                //MyStringGrid.Cells[j,i]:=a[i,j].ToString;
+                MyStringGrid.Cells[j,i]:=a[i,j].ToString;
+
               end;
             end;
             // Считываем вектор
-            for i:=0 to n1-1 do
+            {for i:=0 to n1-1 do
             begin
-              f.Read(D_save[i],sizeof(D_save[i]));
-              MyStringGrid.Cells[n1,i]:=D_save[i].ToString;
-            end;
+              f.Read(value,sizeof(value));
+              MyStringGrid.Cells[n1,j]:=value;
+            end;     }
+            //=strtofloat(Form1.);
+
             // Закрываем файл по окончании
               f.Free;
-              A_save:=nil;
-              D_save:=nil;
           end;
           mrCancel:
           begin
@@ -442,19 +428,20 @@ end;
 
 procedure TForm1.Button4Click(Sender: TObject);
 var f:TFileStream; // переменная для работы с текстовым файлом
-i:integer;
 begin
 
       n1:=matrix_size;
+
     //   Инициализация масссивов
       Setlength(A_save,n1);
+
     for i:=0 to n1-1 do
     begin
       Setlength(A_save[i],n1);
     end;
-      Setlength(D_save,n1);
 
-    InputQuery('Сохранение матрицы в файл', ['Введите имя файла'], ['mysavematrix.txt'],
+
+       InputQuery('Сохранение матрицы в файл', ['Введите имя файла'], ['mysavematrix.txt'],
 
     procedure(const AResult: TModalResult; const AValues: array of string)
     var i,j:integer; value:string;
@@ -493,20 +480,18 @@ begin
                         begin
                           for j:=0 to n1-1 do
                           begin
-                             A_save[i,j]:=StrToFloat(MyStringGrid.Cells[j,i]);
+                             A_save[i,j]:=FloatToStr(MyStringGrid.Cells[j,i]);
                              f.Write(A_save[i,j],sizeof(A_save[i,j]));
                           end;
                         end;
                         // Сохраняем вектор
-                        for i:=0 to n1-1 do
+                        {for i:=0 to n1-1 do
                         begin
-                          D_save[i]:=StrToFloat(MyStringGrid.Cells[n1,i]);
-                          f.Write(D_save[i],sizeof(D_save[i]));
-                        end;
+                          f.Write(d[i],sizeof(d[i]));
+                        end;     }
                         // Закрываем файл по окончании
                           f.Free;
                           A_save:=nil;
-                          D_save:=nil;
                       end;
 
                       mrNo:
@@ -532,7 +517,7 @@ begin
            begin
            for j:=0 to n1-1 do
            begin
-             A_save[i,j]:=StrToFloat(MyStringGrid.Cells[j,i]);
+             A_save[i,j]:=FloatToStr(MyStringGrid.Cells[j,i]);
              f.Write(A_save[i,j],sizeof(A_save[i,j]));
           end;
           end;
@@ -564,60 +549,12 @@ end;
 
 
 
-procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
-  Shift: TShiftState);
-begin
-{$IFDEF ANDROID}
-//*************************************************//
- if Key = vkHardwareBack then
- begin
-         Key:=0;
-         ExitConfirm;
- end;
-//**************************************************//
-{$ENDIF}
-end;
-
-procedure TForm1.FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
-  Shift: TShiftState);
-begin
-{$IFDEF ANDROID}
-//*************************************************//
- if Key = vkHardwareBack then
- begin
-         Key:=0;
- end;
-//**************************************************//
-{$ENDIF}
-end;
-
 procedure TForm1.FormShow(Sender: TObject);
 begin
   elementscol:=0;
   // Создаем StringGrid
   StringGridConstructor(MyStringGrid,elementscol,Layout1);
   Button1.Enabled:=false;
-
-  {$IFDEF ANDROID}
-
-    FPermissionWriteExternalStorage:=JStringToString(TJManifest_permission.JavaClass.WRITE_EXTERNAL_STORAGE);
-    PermissionsService.RequestPermissions([FPermissionWriteExternalStorage],
-
-  procedure(const APermissions: TArray<string>; const AGrantResults: TArray<TPermissionStatus>)
-  var i:integer;
-  begin
-          if AGrantResults[0] = TPermissionStatus.Granted then
-            begin
-
-            end
-          Else
-            begin
-              ShowMessage('Чтение с карты запрещено!');
-            end;
-  end);
-
-  {$ENDIF}
-
 end;
 
 end.

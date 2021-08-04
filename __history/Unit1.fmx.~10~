@@ -10,8 +10,6 @@ object Form1: TForm1
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnDestroy = FormDestroy
-  OnKeyDown = FormKeyDown
-  OnKeyUp = FormKeyUp
   OnShow = FormShow
   DesignerMasterStyle = 3
   object Layout1: TLayout

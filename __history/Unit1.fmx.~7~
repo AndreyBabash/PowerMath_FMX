@@ -10,8 +10,6 @@ object Form1: TForm1
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnDestroy = FormDestroy
-  OnKeyDown = FormKeyDown
-  OnKeyUp = FormKeyUp
   OnShow = FormShow
   DesignerMasterStyle = 3
   object Layout1: TLayout
@@ -80,9 +78,8 @@ object Form1: TForm1
         Size.Height = 48.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = 'refreshtoolbutton'
-        TabOrder = 2
+        TabOrder = 3
         Text = 'Button3'
-        OnClick = Button3Click
       end
     end
     object Button4: TButton
@@ -92,7 +89,7 @@ object Form1: TForm1
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
       StyleLookup = 'pagecurltoolbutton'
-      TabOrder = 2
+      TabOrder = 3
       Text = 'Button3'
       OnClick = Button4Click
     end

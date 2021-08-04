@@ -16,9 +16,10 @@ type
   TForm1 = class(TForm)
     Button1: TButton;
     Button2: TButton;
-    Edit1: TEdit;
     Layout1: TLayout;
     Memo1: TMemo;
+    ToolBar1: TToolBar;
+    Label1: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -34,6 +35,7 @@ type
     n1,n, i,j,matrix_size:integer;
     A: TMatrix;
     D, X: TVector;
+    public function Gauss(n:integer; A:TMatrix; D:TVector):TVector;
   end;
 
 
@@ -48,7 +50,7 @@ implementation
 
 //-----------Описание метода Гаусса---------------------------
 
-function Gauss(n: integer; A: TMatrix;  D: TVector): TVector;
+function TForm1.Gauss(n:integer; A:TMatrix; D:TVector):TVector;
 Var
    i,j,k: integer;
    S: extended;
@@ -58,127 +60,89 @@ Var
 begin
 
 //   Инициализация динамических масссивов
-
   Setlength(B, n);
 
-  for i := 0 to n - 1 do
-
+  for i:=0 to n-1 do
   begin
-
     Setlength(B[i], n);
-
   end;
 
-  Setlength(C, n);
+    Setlength(C,n);
 
-  for i := 0 to n - 1 do
-
+  for i:=0 to n-1 do
   begin
-
     Setlength(C[i], n);
-
   end;
 
-  Setlength(X, n);
+  Setlength(X,n);
 
-  Setlength(Y, n);
+  Setlength(Y,n);
 
   // Метод Гаусса
 
-  for i := 0 to n - 1 do
+  for i:=0 to n-1 do
 
   begin
-    B[i, i] := 1;
-    B[0, i] := A[0, i] / A[0, 0];
-    C[i, 0] := A[i, 0];
+    B[i,i]:=1;
+    B[0,i]:=A[0,i]/A[0,0];
+    C[i,0]:=A[i,0];
   end;
 
-  Y[0] := D[0] / A[0, 0];
+  Y[0]:=D[0]/A[0,0];
 
-  for i := 1 to n - 1 do
-
+  for i:=1 to n-1 do
   begin
-
-    For k := i to n - 1 do
-
+    for k:=i to n-1 do
     begin
-
-      S := 0;
-
-      for j := 0 to i - 1 do
-
-        S := S + C[k, j] * B[j, i];
-      C[k, i] := A[k, i] - S;
-
+      S:= 0;
+      for j:=0 to i-1 do
+        S:=S+C[k,j]*B[j,i];
+      C[k,i]:=A[k,i]-S;
     end;
 
-    for k := i + 1 to n - 1 do
-
+    for k:=i+1 to n-1 do
     begin
+      S:=0;
+      for j:=0 to i-1 do
+        S:=S+C[i,j]*B[j,k];
 
-      S := 0;
-
-      for j := 0 to i - 1 do
-
-        S := S + C[i, j] * B[j, k];
-      B[i, k] := (A[i, k] - S) / C[i, i]
-
+      B[i,k]:=(A[i,k]-S)/C[i,i]
     end;
 
   end;
 
-  for i := 1 to n - 1 do
-
+  for i:=1 to n-1 do
   begin
-
-    S := 0;
-
-    for j := 0 to i - 1 do
-      S := S + C[i, j] * Y[j];
-
-    try
-
-      Y[i] := (D[i] - S) / C[i, i];
-
-    except
+    S:=0;
+    for j:=0 to i-1 do
+      S:=S+C[i,j]*Y[j];
+      try
+        Y[i]:=(D[i]-S)/C[i,i];
+      except
       on EZeroDivide do
-
       begin
-
         ShowMessage('Не могу найти корни!!! Ошибка деления на ноль!!! ');
         Exit;
-
       end;
-
       on EInvalidOp do
-
       begin
-
         ShowMessage('Не могу найти корни!!! Ошибка во время расчета!!!');
         Exit;
-
       end;
-
-    end;
-
+      end;
   end;
 
-  X[n - 1] := Y[n - 1];
+    X[n-1]:=Y[n-1];
 
-  for i := 0 to n - 1 do
+  for i:= 0 to n-1 do
   begin
+    S:= 0;
+    for j:=n-i+1-1 to n-1 do
 
-    S := 0;
-
-    for j := n - i + 1 - 1 to n - 1 do
-
-      S := S + B[n - 1 - i, j] * X[j];
-      X[n - 1 - i] := Y[n - 1 - i] - S;
-
+      S:=S+B[n-1-i,j]*X[j];
+      X[n-1-i]:=Y[n-1-i]-S;
   end;
-
-  Result := X;
-
+  Result:=X;
 end;
 
 procedure TForm1.StringGridConstructor(var sg: TStringGrid; var rowcol: integer;
@@ -199,19 +163,20 @@ end;
 procedure TForm1.Button1Click(Sender: TObject);
 var i,j:integer;  temp:string;
 begin
-  Memo1.Lines.Clear;
-  n1:=matrix_size;
 
-  //   Инициализация масссивов
-  Setlength(a,n1);
+    Memo1.Lines.Clear;
+    n1:=matrix_size;
 
- for i:=0 to n1-1 do
- begin
-  Setlength(a[i],n1);
- end;
+    //   Инициализация масссивов
+      Setlength(a,n1);
 
-  Setlength(d,n1);
-  Setlength(x,n1);
+    for i:=0 to n1-1 do
+    begin
+      Setlength(a[i],n1);
+    end;
+
+      Setlength(d,n1);
+      Setlength(x,n1);
 
 
      for i:=0 to n1-1 do
@@ -259,8 +224,10 @@ begin
 
     Memo1.Lines.Add(temp);
     temp:='';
+    Memo1.Lines.Add('');
     Memo1.Lines.Add('Вектор: ');
     Memo1.Lines.Add('=====================');
+    Memo1.Lines.Add('');
 
     for i:=0 to n1-1 do
     begin
@@ -269,7 +236,7 @@ begin
 
     Memo1.Lines.Add(temp);
 
-
+    Memo1.Lines.Add('');
     Memo1.Lines.Add('Корни системы уравнений: ');
     Memo1.Lines.Add('=====================');
 
@@ -284,40 +251,72 @@ begin
    a:=nil;
    d:=nil;
    x:=nil;
+
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
-var i:integer;
+
 begin
     stringcolumn:=nil;
-    elementscol:=integer.Parse(Edit1.Text);
-    SetLength(stringcolumn,elementscol+1);
-    matrix_size:=elementscol;
 
-    try
-      MyStringGrid.Destroy;
-      MyStringGrid.Free;
-      MyStringGrid:=nil;
-    except on EAccessViolation do
-    begin
+     InputQuery('Введите размер новой матрицы', ['Размерность матрицы'], ['2'],
 
-    end;
-    end;
+    procedure(const AResult: TModalResult; const AValues: array of string)
+    var i:integer;
+      begin
+        case AResult of
 
-    StringGridConstructor(MyStringGrid,elementscol,Layout1);
+          mrOk:
+          begin
+            try
+             elementscol:=integer.Parse(AValues[0]);
+             SetLength(stringcolumn,elementscol+1);
+             matrix_size:=elementscol;
+            except on EConvertError do
+            begin
+              ShowMessage('Неверное значение числа точек!!!');
+              Button1.Enabled:=false;
+              Exit;
+            end;
+            end;
 
+          // Удаляем грид
+          try
+            MyStringGrid.Destroy;
+            MyStringGrid.Free;
+            MyStringGrid:=nil;
+          except on EAccessViolation do
+          begin
 
+          end;
+          end;
+          // Рисуем грид заново
+          StringGridConstructor(MyStringGrid,elementscol,Layout1);
 
-  for i:=0 to Length(stringcolumn)-1 do
-  begin
-     stringcolumn[i]:=TStringColumn.Create(MyStringGrid);
-     stringcolumn[i].Parent:=MyStringGrid;
-     stringcolumn[i].Visible:=true;
-     stringcolumn[i].Name:='StringColumn'+i.ToString;
-     stringcolumn[i].Header:='a['+(i+1).ToString+']';
-     if i=Length(stringcolumn)-1 then stringcolumn[i].Header:='d';
+          // Добавляем колонки
+          for i:=0 to Length(stringcolumn)-1 do
+          begin
+             stringcolumn[i]:=TStringColumn.Create(MyStringGrid);
+             stringcolumn[i].Parent:=MyStringGrid;
+             stringcolumn[i].Visible:=true;
+             stringcolumn[i].Name:='StringColumn'+i.ToString;
+             stringcolumn[i].Header:='a['+(i+1).ToString+']';
+             if i=Length(stringcolumn)-1 then stringcolumn[i].Header:='d';
+          end;
 
-  end;
+          Button1.Enabled:=true;
+
+          end;
+
+          mrCancel:
+          begin
+           Button1.Enabled:=false;
+           Exit;
+          end;
+        end;
+      end
+    );
+
 
 end;
 
@@ -326,15 +325,17 @@ end;
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
   stringcolumn:=nil;
+  MyStringGrid:=nil;
 end;
 
 
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
-  elementscol:=integer.Parse(Edit1.Text);
+  elementscol:=0;
   // Создаем StringGrid
   StringGridConstructor(MyStringGrid,elementscol,Layout1);
+  Button1.Enabled:=false;
 end;
 
 end.

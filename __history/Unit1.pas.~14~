@@ -6,9 +6,9 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, System.Rtti,
   FMX.Grid.Style, FMX.Grid, FMX.ScrollBox,
-  FMX.StdCtrls, FMX.Edit, FMX.Layouts, FMX.Memo, System.Permissions,
+  FMX.StdCtrls, FMX.Edit, FMX.Layouts, FMX.Memo,
   {$IFDEF ANDROID}
-  Androidapi.Helpers, FMX.Platform.Android, Androidapi.JNI.Os,
+  Androidapi.Helpers, FMX.Platform.Android,
   {$ENDIF}
   FMX.Controls.Presentation;
 
@@ -33,10 +33,6 @@ type
     procedure FormShow(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
-      Shift: TShiftState);
-    procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
-      Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -50,7 +46,6 @@ type
     D_save:TVector;
     D, X: TVector;
     filename:string;
-    FPermissionWriteExternalStorage: string;
     public function Gauss(n:integer; A:TMatrix; D:TVector):TVector;
   end;
 
@@ -381,17 +376,19 @@ procedure TForm1.Button3Click(Sender: TObject);
 var f:TFileStream; // переменная для работы с текстовым файлом
 i:integer;
 begin
-
       n1:=matrix_size;
+
     //   Инициализация масссивов
       Setlength(A_save,n1);
+
     for i:=0 to n1-1 do
     begin
       Setlength(A_save[i],n1);
     end;
-      Setlength(D_save,n1);
 
-    InputQuery('Загрузка матрицы из файла', ['Введите имя файла'], ['mysavematrix.txt'],
+    Setlength(D_save,n1);
+
+  InputQuery('Загрузка матрицы из файла', ['Введите имя файла'], ['mysavematrix.txt'],
 
     procedure(const AResult: TModalResult; const AValues: array of string)
     var i,j:integer;  value:string;
@@ -446,15 +443,19 @@ i:integer;
 begin
 
       n1:=matrix_size;
+
     //   Инициализация масссивов
       Setlength(A_save,n1);
+
     for i:=0 to n1-1 do
     begin
       Setlength(A_save[i],n1);
     end;
-      Setlength(D_save,n1);
 
-    InputQuery('Сохранение матрицы в файл', ['Введите имя файла'], ['mysavematrix.txt'],
+    Setlength(D_save,n1);
+
+
+       InputQuery('Сохранение матрицы в файл', ['Введите имя файла'], ['mysavematrix.txt'],
 
     procedure(const AResult: TModalResult; const AValues: array of string)
     var i,j:integer; value:string;
@@ -564,60 +565,12 @@ end;
 
 
 
-procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
-  Shift: TShiftState);
-begin
-{$IFDEF ANDROID}
-//*************************************************//
- if Key = vkHardwareBack then
- begin
-         Key:=0;
-         ExitConfirm;
- end;
-//**************************************************//
-{$ENDIF}
-end;
-
-procedure TForm1.FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
-  Shift: TShiftState);
-begin
-{$IFDEF ANDROID}
-//*************************************************//
- if Key = vkHardwareBack then
- begin
-         Key:=0;
- end;
-//**************************************************//
-{$ENDIF}
-end;
-
 procedure TForm1.FormShow(Sender: TObject);
 begin
   elementscol:=0;
   // Создаем StringGrid
   StringGridConstructor(MyStringGrid,elementscol,Layout1);
   Button1.Enabled:=false;
-
-  {$IFDEF ANDROID}
-
-    FPermissionWriteExternalStorage:=JStringToString(TJManifest_permission.JavaClass.WRITE_EXTERNAL_STORAGE);
-    PermissionsService.RequestPermissions([FPermissionWriteExternalStorage],
-
-  procedure(const APermissions: TArray<string>; const AGrantResults: TArray<TPermissionStatus>)
-  var i:integer;
-  begin
-          if AGrantResults[0] = TPermissionStatus.Granted then
-            begin
-
-            end
-          Else
-            begin
-              ShowMessage('Чтение с карты запрещено!');
-            end;
-  end);
-
-  {$ENDIF}
-
 end;
 
 end.

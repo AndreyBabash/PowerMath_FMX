@@ -33,10 +33,6 @@ type
     procedure FormShow(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
-      Shift: TShiftState);
-    procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
-      Shift: TShiftState);
   private
     { Private declarations }
   public
@@ -563,33 +559,6 @@ begin
 end;
 
 
-
-procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
-  Shift: TShiftState);
-begin
-{$IFDEF ANDROID}
-//*************************************************//
- if Key = vkHardwareBack then
- begin
-         Key:=0;
-         ExitConfirm;
- end;
-//**************************************************//
-{$ENDIF}
-end;
-
-procedure TForm1.FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
-  Shift: TShiftState);
-begin
-{$IFDEF ANDROID}
-//*************************************************//
- if Key = vkHardwareBack then
- begin
-         Key:=0;
- end;
-//**************************************************//
-{$ENDIF}
-end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
